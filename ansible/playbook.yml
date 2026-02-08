@@ -1,0 +1,41 @@
+- name: Configure Web Server and Deploy Static Website using Docker
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+
+    - name: Create app directory
+      file:
+        path: /opt/static-site
+        state: directory
+
+    - name: Copy project files to server
+      copy:
+        src: ../
+        dest: /opt/static-site
+
+    - name: Build Docker Image
+      command: docker build -t static-site /opt/static-site
+
+    - name: Run Docker Container
+      command: docker run -d --name static-site-container -p 80:80 static-site
+      ignore_errors: yes
