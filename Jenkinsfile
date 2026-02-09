@@ -58,7 +58,7 @@ pipeline {
                 dir('ansible') {
                     sh '''
                     echo "[web]" > inventory.ini
-                    echo "${EC2_IP} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/devops-key" >> inventory.ini
+                    echo "${EC2_IP} ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/devops-key" >> inventory.ini
                     cat inventory.ini
                     '''
                 }
