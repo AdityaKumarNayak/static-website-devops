@@ -44,7 +44,7 @@ pipeline {
                   for i in {1..20}; do
                   nc -z ${EC2_IP} 22 && echo "SSH is now available!" && exit 0
                   echo "SSH not ready yet... retrying in 10 seconds"
-                  sleep 10
+                  sleep 60
                   done
                   echo "SSH not available after waiting"
                   exit 1
